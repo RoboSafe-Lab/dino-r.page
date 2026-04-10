@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DINO-R: Explainable OOD Detection for Autonomous Vehicles</title>
+  <title>DINO-R: Explainable Out-of-Distribution Detection for Autonomous Vehicles</title>
   <style>
     :root {
       --bg: #ffffff;
@@ -78,6 +78,35 @@
     .btn:hover { opacity: 0.8; }
     .btn-primary { background: var(--accent); color: #ffffff; }
     .btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+    .btn-disabled {
+      background: var(--surface);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+    .btn-disabled:hover { opacity: 0.6; }
+
+    /* ── Author block ── */
+    .author-block {
+      margin: 0 auto 32px;
+      line-height: 1.4;
+    }
+    .authors {
+      font-size: 1.05rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .affiliation {
+      font-size: 0.95rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .equal-contrib {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-style: italic;
+    }
 
     /* ── Layout ── */
     .container {
@@ -86,8 +115,7 @@
       padding: 0 24px;
     }
 
-    section { padding: 64px 0; border-bottom: 1px solid var(--border); }
-    section:last-child { border-bottom: none; }
+    section { padding: 64px 0; }
 
     h2 {
       font-size: 1.5rem;
@@ -131,11 +159,18 @@
     .card p { font-size: 0.88rem; color: var(--muted); }
 
     /* ── Architecture ── */
+    .arch-wrap {
+      margin-top: 8px;
+      margin-left: -80px;
+      margin-right: -80px;
+    }
     .arch-img {
       width: 100%;
       border-radius: 10px;
       border: 1px solid var(--border);
-      margin-top: 8px;
+    }
+    @media (max-width: 800px) {
+      .arch-wrap { margin-left: 0; margin-right: 0; }
     }
 
     /* ── Results table ── */
@@ -228,8 +263,6 @@
     .video-item video {
       width: 100%;
       display: block;
-      aspect-ratio: 16/9;
-      object-fit: cover;
       background: #000;
     }
     .video-caption {
@@ -274,19 +307,26 @@
 
 <!-- ═══════════════════════════ HERO ═══════════════════════════ -->
 <div class="hero">
-  <div class="venue">Autonomous Vehicles · Safety AI</div>
   <h1>DINO-R: Explainable Out-of-Distribution Detection for Autonomous Vehicles</h1>
-  <p class="subtitle">
-    A lightweight, interpretable OOD detection framework leveraging frozen DINOv3 features
-    and Monte-Carlo masking to produce pixel-level anomaly maps in real driving scenes.
-  </p>
+  <div class="author-block">
+    <p class="authors">Jiamin Yin · Tianzi Chen · Yuanru Yang · Yizhuo Xiao · Cheng Wang</p>
+    <p class="affiliation">Heriot-Watt University</p>
+    <p class="equal-contrib">* Jiamin Yin and Tianzi Chen contribute equally</p>
+  </div>
+
   <div class="btn-row">
     <a class="btn btn-primary" href="https://github.com/RoboSafe-Lab/DINO-R" target="_blank">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
       GitHub
     </a>
-    <a class="btn btn-secondary" href="#results">Results</a>
-    <a class="btn btn-secondary" href="#videos">Video Demo</a>
+    <span class="btn btn-disabled">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Paper
+    </span>
+    <span class="btn btn-disabled">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      arXiv
+    </span>
   </div>
 </div>
 
@@ -296,46 +336,98 @@
   <section id="abstract">
     <h2>Abstract</h2>
     <p class="abstract-text">
-      Reliable deployment of autonomous vehicles requires detecting
-      <strong>out-of-distribution (OOD) scenarios</strong> — road conditions,
-      objects, or weather events not seen during training — before they cause safety failures.
-      DINO-R addresses this with a two-stage approach: frozen <strong>DINOv3 patch tokens</strong>
-      encode rich scene semantics, while a small trainable <strong>transformer reconstructor</strong>
-      is trained exclusively on in-distribution (ID) driving scenes.
-      At inference, Monte-Carlo masking produces stable <strong>pixel-level anomaly heatmaps</strong>,
-      surfacing exactly which image regions drive the OOD decision.
-      Evaluated against 10 competing methods on the SegmentMeIfYouCan benchmark,
-      DINO-R achieves <strong>AUROC 0.9945</strong> and <strong>FPR@95 0.0302</strong> —
-      state-of-the-art among both supervised and unsupervised approaches.
+      Reliable <strong>out-of-distribution (OOD) detection</strong> is essential for the safe deployment of <strong>autonomous vehicles</strong>, yet most existing methods operate as black boxes and offer limited insight into why an input is flagged as anomalous. We propose <strong>DINO-R</strong>, a lightweight and explainable OOD detection framework that leverages frozen <strong>DINOv3 patch tokens</strong> and a small trainable <strong>transformer reconstructor</strong>. During training on <strong>in-distribution (ID)</strong> driving scenes only, the reconstructor learns to predict randomly masked feature tokens from their visible context. At inference, <strong>Monte-Carlo masking</strong> aggregates token-level reconstruction errors into a stable <strong>anomaly map</strong> and an image-level OOD score, jointly providing a detection decision and a spatially interpretable heatmap that highlights anomalous regions. On Cityscapes (ID) versus RoadAnomaly (OOD), DINO-R achieves an <strong>AUROC of 0.9945</strong> and <strong>FPR@95%TPR of 0.0302</strong>, outperforming kNN, Mahalanobis, and pixel-reconstruction baselines while requiring no OOD data for training or threshold calibration. Qualitative visualizations confirm that the produced <strong>anomaly maps</strong> consistently localize novel objects, offering human-verifiable evidence for runtime monitoring of autonomous driving perception.
     </p>
-  </section>
-
-  <!-- ═══════════════════════════ HIGHLIGHTS ═══════════════════════════ -->
-  <section id="highlights">
-    <h2>Key Highlights</h2>
-    <div class="highlights">
-      <div class="card">
-        <div class="card-icon">⚡</div>
-        <h3>Lightweight Architecture</h3>
-        <p>Frozen DINOv3 patch tokens paired with a minimal trainable transformer reconstructor. No large fine-tuning required.</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">🔒</div>
-        <h3>Unsupervised ID Training</h3>
-        <p>Learns purely from in-distribution driving scenes. No OOD data is ever needed for training or threshold calibration.</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">🗺️</div>
-        <h3>High Interpretability</h3>
-        <p>Monte-Carlo masking generates pixel-level anomaly maps, showing exactly <em>why</em> a frame is flagged as OOD.</p>
-      </div>
-    </div>
   </section>
 
   <!-- ═══════════════════════════ ARCHITECTURE ═══════════════════════════ -->
   <section id="architecture">
     <h2>Architecture</h2>
-    <img class="arch-img" src="images/DINO-R.png" alt="DINO-R architecture diagram" />
+    <div class="arch-wrap">
+      <img class="arch-img" src="images/DINO-R.png" alt="DINO-R architecture diagram" />
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════ QUALITATIVE EXAMPLES ═══════════════════════════ -->
+  <section id="qualitative">
+    <h2>Qualitative Examples</h2>
+    <div class="example-grid">
+      <div class="example-card">
+        <div class="example-label label-id">ID — In-Distribution Scene — Cityscapes</div>
+        <img src="images/id1_grid.png" alt="ID example 1 with anomaly heatmap" />
+        <img src="images/id2_grid.png" alt="ID example 2 with anomaly heatmap" />
+      </div>
+      <div class="example-card">
+        <div class="example-label label-ood">OOD — Out-of-Distribution Scene — RoadAnomaly21 / RoadObstacle21</div>
+        <img src="images/ood1_grid.png" alt="OOD example 1 with anomaly heatmap" />
+        <img src="images/ood2_grid.png" alt="OOD example 2 with anomaly heatmap" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════ VIDEOS ═══════════════════════════ -->
+  <section id="videos">
+    <h2>Video Inference Demo</h2>
+    <p style="color:var(--muted);font-size:.9rem;margin-bottom:36px;">
+      Each video shows the original frame alongside the real-time anomaly heatmap produced by DINO-R.
+      Warmer colors (red/orange) indicate higher anomaly scores.
+    </p>
+
+    <!-- ── Dataset 1: Cityscapes ── -->
+    <div class="video-dataset">
+      <div class="dataset-header">
+        <span class="dataset-badge badge-id">Cityscapes</span>
+      </div>
+
+      <div class="video-grid">
+        <div class="video-item">
+          <video autoplay muted loop playsinline>
+            <source src="videos/cityscapes/00.mp4" type="video/mp4" />
+          </video>
+          <div class="video-caption">OOD Rate: 8.35%</div>
+        </div>
+        <div class="video-item">
+          <video autoplay muted loop playsinline>
+            <source src="videos/cityscapes/01.mp4" type="video/mp4" />
+          </video>
+          <div class="video-caption">OOD Rate: 0.00%</div>
+        </div>
+        <div class="video-item">
+          <video autoplay muted loop playsinline>
+            <source src="videos/cityscapes/02.mp4" type="video/mp4" />
+          </video>
+          <div class="video-caption">OOD Rate: 24.08%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Dataset 2: RoadAnomaly21 / RoadObstacle21 ── -->
+    <div class="video-dataset">
+      <div class="dataset-header">
+        <span class="dataset-badge badge-ood">bdd100k</span>
+      </div>
+
+      <div class="video-grid">
+        <div class="video-item">
+          <video autoplay muted loop playsinline>
+            <source src="videos/bdd100k/cabc30fc-eb673c5a.mp4" type="video/mp4" />
+          </video>
+          <div class="video-caption">OOD Rate: 100%</div>
+        </div>
+        <div class="video-item">
+          <video autoplay muted loop playsinline>
+            <source src="videos/bdd100k/cac07407-76e4c968.mp4" type="video/mp4" />
+          </video>
+          <div class="video-caption">OOD Rate: 100%</div>
+        </div>
+        <div class="video-item">
+          <video autoplay muted loop playsinline>
+            <source src="videos/bdd100k/caf380ad-52f6a603.mp4" type="video/mp4" />
+          </video>
+          <div class="video-caption">OOD Rate: 100%</div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- ═══════════════════════════ RESULTS ═══════════════════════════ -->
@@ -376,110 +468,6 @@
         </tbody>
       </table>
     </div>
-
-    <!-- Example images -->
-    <div style="margin-top: 36px;">
-      <h3 style="font-size:1rem;font-weight:600;margin-bottom:14px;">Qualitative Examples</h3>
-      <div class="example-grid">
-        <div class="example-card">
-          <div class="example-label label-id">ID — In-Distribution Scene</div>
-          <img src="images/id1_grid.png" alt="ID example with anomaly heatmap" />
-        </div>
-        <div class="example-card">
-          <div class="example-label label-ood">OOD — Out-of-Distribution Scene</div>
-          <img src="images/ood1_grid.png" alt="OOD example with anomaly heatmap" />
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════ VIDEOS ═══════════════════════════ -->
-  <section id="videos">
-    <h2>Video Inference Demo</h2>
-    <p style="color:var(--muted);font-size:.9rem;margin-bottom:36px;">
-      Each video shows the original frame alongside the real-time anomaly heatmap produced by DINO-R.
-      Warmer colors (red/orange) indicate higher anomaly scores.
-    </p>
-
-    <!-- ── Dataset 1: Cityscapes ── -->
-    <div class="video-dataset">
-      <div class="dataset-header">
-        <span class="dataset-badge badge-id">ID Dataset</span>
-        <span class="dataset-title">Cityscapes — Demo Videos</span>
-      </div>
-      <p class="dataset-desc">
-        Cityscapes contains urban driving footage from German cities, used as the in-distribution training set.
-        The heatmap stays cool (low anomaly score) on familiar street scenes, with occasional warm spikes on
-        unusual objects.
-      </p>
-      <div class="video-grid">
-        <div class="video-item">
-          <video controls muted loop playsinline>
-            <source src="videos/cityscapes/00.mp4" type="video/mp4" />
-          </video>
-          <div class="video-caption">Cityscapes Demo — Clip 1</div>
-        </div>
-        <div class="video-item">
-          <video controls muted loop playsinline>
-            <source src="videos/cityscapes/01.mp4" type="video/mp4" />
-          </video>
-          <div class="video-caption">Cityscapes Demo — Clip 2</div>
-        </div>
-        <div class="video-item">
-          <video controls muted loop playsinline>
-            <source src="videos/cityscapes/02.mp4" type="video/mp4" />
-          </video>
-          <div class="video-caption">Cityscapes Demo — Clip 3</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── Dataset 2: RoadAnomaly21 / RoadObstacle21 ── -->
-    <div class="video-dataset">
-      <div class="dataset-header">
-        <span class="dataset-badge badge-ood">OOD Dataset</span>
-        <span class="dataset-title">SegmentMeIfYouCan — RoadAnomaly21 / RoadObstacle21</span>
-      </div>
-      <p class="dataset-desc">
-        The SegmentMeIfYouCan benchmark provides real-world footage of unexpected road obstacles and anomalies
-        — animals, debris, unusual objects — that were never seen during training.
-        DINO-R consistently produces intense heatmaps over the anomalous regions.
-      </p>
-      <div class="video-grid">
-        <div class="video-item">
-          <video controls muted loop playsinline>
-            <source src="videos/bdd100k/cabc30fc-eb673c5a.mp4" type="video/mp4" />
-          </video>
-          <div class="video-caption">OOD Sequence — cabc30fc</div>
-        </div>
-        <div class="video-item">
-          <video controls muted loop playsinline>
-            <source src="videos/bdd100k/cac07407-76e4c968.mp4" type="video/mp4" />
-          </video>
-          <div class="video-caption">OOD Sequence — cac07407</div>
-        </div>
-        <div class="video-item">
-          <video controls muted loop playsinline>
-            <source src="videos/bdd100k/caf380ad-52f6a603.mp4" type="video/mp4" />
-          </video>
-          <div class="video-caption">OOD Sequence — caf380ad</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════ ACKNOWLEDGMENT ═══════════════════════════ -->
-  <section id="acknowledgment">
-    <h2>Acknowledgment</h2>
-    <p class="ack">
-      This research utilizes the <a href="https://github.com/facebookresearch/dinov3" target="_blank">DINOv3</a>
-      model provided by Meta AI. Anomaly benchmark datasets are sourced from the
-      <a href="https://segmentmeifyoucan.com/" target="_blank">SegmentMeIfYouCan</a> benchmark.
-      The in-distribution training set uses
-      <a href="https://www.cityscapes-dataset.com/" target="_blank">Cityscapes</a>.
-      By using this software, you may also be bound by the
-      <a href="https://github.com/facebookresearch/dinov3/blob/main/LICENSE.md" target="_blank">DINOv3 License</a>.
-    </p>
   </section>
 
 </div><!-- /container -->
@@ -488,7 +476,7 @@
   <p>
     DINO-R &nbsp;·&nbsp;
     <a href="https://github.com/RoboSafe-Lab/DINO-R" target="_blank">GitHub</a>
-    &nbsp;·&nbsp; RoboSafe Lab
+    &nbsp;·&nbsp; Heriot-Watt University RoboSafe Lab
   </p>
 </footer>
 
